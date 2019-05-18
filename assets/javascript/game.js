@@ -19,26 +19,26 @@ var game = {
     correctAnswer: false,
 
     questionBank: [ //the correct answer is stored in the index 0 position of the answers array.
-        new Question("A", ["", "", "", ""]),
-        new Question("B", ["", "", "", ""]),
-        new Question("C", ["", "", "", ""]),
-        new Question("D", ["", "", "", ""]),
-        new Question("E", ["", "", "", ""]),
-        new Question("F", ["", "", "", ""]),
-        new Question("G", ["", "", "", ""]),
-        new Question("H", ["", "", "", ""]),
-        new Question("I", ["", "", "", ""]),
-        new Question("J", ["", "", "", ""]),
-        new Question("K", ["", "", "", ""]),
-        new Question("L", ["", "", "", ""]),
-        new Question("M", ["", "", "", ""]),
-        new Question("N", ["", "", "", ""]),
-        new Question("O", ["", "", "", ""]),
-        new Question("P", ["", "", "", ""]),
-        new Question("Q", ["", "", "", ""]),
-        new Question("R", ["", "", "", ""]),
-        new Question("S", ["", "", "", ""]),
-        new Question("T", ["", "", "", ""]),
+        new Question("", ["", "", "", ""], "", "")
+        // new Question("B", ["", "", "", ""]),
+        // new Question("C", ["", "", "", ""]),
+        // new Question("D", ["", "", "", ""]),
+        // new Question("E", ["", "", "", ""]),
+        // new Question("F", ["", "", "", ""]),
+        // new Question("G", ["", "", "", ""]),
+        // new Question("H", ["", "", "", ""]),
+        // new Question("I", ["", "", "", ""]),
+        // new Question("J", ["", "", "", ""]),
+        // new Question("K", ["", "", "", ""]),
+        // new Question("L", ["", "", "", ""]),
+        // new Question("M", ["", "", "", ""]),
+        // new Question("N", ["", "", "", ""]),
+        // new Question("O", ["", "", "", ""]),
+        // new Question("P", ["", "", "", ""]),
+        // new Question("Q", ["", "", "", ""]),
+        // new Question("R", ["", "", "", ""]),
+        // new Question("S", ["", "", "", ""]),
+        // new Question("T", ["", "", "", ""]),
     ],
 
 
@@ -148,11 +148,9 @@ function showHTML(element, html) {
     element.html(html);
 }
 
-function selectRandomQuestion(questionArray) {
-    return Math.floor(Math.random() * questionArray.length);
-}
-
-function Question(quest, answerArray) {
+function Question(quest, answerArray, img, desc) {
     this.question = quest;
     this.answers = answerArray;
+    this.image = img;
+    this.fact = desc;
 }

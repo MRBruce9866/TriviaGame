@@ -1,8 +1,24 @@
 body {
     text-align: center;
     font-size: 32px;
+    color: white;
+    cursor: default;
     font-family: 'Times New Roman', Times, serif;
+    text-shadow: 2px 2px black;
+    background-color: #222222;
+
+    /* https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none; 
+            user-select: none; 
+
+    
 }
+
+
 
 
 ul{
@@ -15,20 +31,59 @@ li{
     text-align: left;
 }
 
+li:hover{
+    cursor: pointer;
+    color: gold;
+    
+}
+
+.container{
+    border: 2px solid black;
+    background: linear-gradient(#440099, #7700cc, #440099);
+}
+
 .gameTitle {
+    
+    background: linear-gradient(black, #440099, black);
     font-size: 64px;
 }
 
+.gameTitle::first-letter {
+    color: gold;
+}
+
+
+.footer{
+
+    height: 48px;
+    background: linear-gradient(black, #440099, black);
+
+}
+
 .gameQuestion {
+    
     font-size: 48px;
 }
 
 .gameAnswerBox {
-    
     width: fit-content;
-    margin: 0 auto;
 }
 
 .gameAnswer {
     align-self: center;
+}
+
+.timerDisplay{
+    box-shadow: 2px 2px black;
+
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 48px;
+    text-align: center;
+    background: linear-gradient(black, #aa00ff, black);
+    border-radius: 50%;
+    border-top: 10px groove white;
+    border-bottom: 10px ridge white;
 }
