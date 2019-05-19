@@ -18,17 +18,22 @@
 
 
     <div class="container mt-5">
-        <div class="row">
+        <div class="row gameContent">
             <div class="col-12 gameTitle mb-5">
 
                 Trivia
             </div>
+            
 
-            <div class="col-12 gameTimer mb-5">
+            <div class="col-12 mainGame gameTimer mb-5">
 
             </div>
 
-            <div class="col-12 gameQuestion my-5">
+            <div class="col-12 mainGame gameQuestionNum">
+                    Question: <span id = gameQuestionIndex>1</span> of <span id = gameQuestionTotal >10</span>
+                </div>
+
+            <div class="col-12 mainGame gameQuestion my-5">
 
                 <button class="startBtn">START GAME</button>
 
@@ -36,7 +41,7 @@
 
             <div class="col-12 mb-5">
 
-                 <ul class="gameAnswerBox mx-auto" >
+                <ul class="gameAnswerBox mainGame mx-auto">
                     <li>A) <span class="gameAnswer" id="gameAnswer0"></span></li>
                     <li>B) <span class="gameAnswer" id="gameAnswer1"></span></li>
                     <li>C) <span class="gameAnswer" id="gameAnswer2"></span></li>

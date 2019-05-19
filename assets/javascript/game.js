@@ -1,167 +1,187 @@
 $(document).ready(function () {
 
     $('.startBtn').on("click", function () {
-        game.startGame();
+        startGame();
     });
 
 });
 
 
-var game = {
-    totalQuestions: 10,
-    rightAnswers: 0,
-    timePerQuestion: 2, //time in seconds
-    timeLeft: 2,
-    currentQuestionIndex: 0,
-    questionIndex: 0,
-    timerIntervalID: 0,
-    correctAnswer: false,
-    isRunning: false,
 
-    questionBank: [ //the correct answer is stored in the index 0 position of the answers array.
-        new Question("What color do the ghost enemies turn when Pacman eats a power pellet?", ["Blue", "Red", "Yellow", "Green"], ""),
-        new Question("How long did it take Markus Persson to create the first version of Minecraft?", ["1 week", "3 days", "1 month", "2 weeks"], ""),
-        new Question("In every Mario Kart title, what is the name of the last track of the Special Cup?", ["Rainbow Road", "Bowser Castle", "Mario Circuit", "Bowser's Keep"], ""),
-        new Question("Crash Bandicoot was released in what year?", ["1996", "1994", "1999", "1998"], ""),
-        new Question("Which Mario character has appeared in all of the Mario Party games EXCEPT one?", ["Wario", "Waluigi", "Bowser", "Peach"], ""),
-        new Question("Solid Snake is a hero in what video game series?", ["Metal Gear", "Red Dead Redemption", "Castlevania", "Fallout"], ""),
-        // new Question("", ["", "", "", ""],""),
-        // new Question("", ["", "", "", ""],""),
-        // new Question("", ["", "", "", ""],""),
+var totalQuestions = 10;
+var rightAnswers = 0;
+var missedQuestions = 0;
+var timePerQuestion = 20; //time in seconds
+var timeLeft = 0;
+var showAnswerTime = 1;
+var questionIndex = 0;
+var timerIntervalID = 0;
+var correctAnswer = false;
+var gameRunning = false;
 
-    ],
+var questionBank = [ //the correct answer is stored in the index 0 position of the answers array.
+    new Question("What color do the ghost enemies turn when Pacman eats a power pellet?", ["Blue", "Red", "Yellow", "Green"], ""),
+    new Question("How long did it take Markus Persson to create the first version of Minecraft?", ["1 week", "3 days", "1 month", "2 weeks"], ""),
+    new Question("In every Mario Kart title, what is the name of the last track of the Special Cup?", ["Rainbow Road", "Bowser Castle", "Mario Circuit", "Bowser's Keep"], ""),
+    new Question("Crash Bandicoot was released in what year?", ["1996", "1994", "1999", "1998"], ""),
+    new Question("Which Mario character has appeared in all of the Mario Party games EXCEPT one?", ["Wario", "Waluigi", "Bowser", "Peach"], ""),
+    new Question("Solid Snake is a hero in what video game series?", ["Metal Gear", "Red Dead Redemption", "Castlevania", "Fallout"], ""),
+    // new Question("", ["", "", "", ""],""),
+    // new Question("", ["", "", "", ""],""),
+    // new Question("", ["", "", "", ""],""),
 
-
-    startGame: function () {
-        $('.startBtn').hide();
-        this.shuffleQuestions();
-        this.displayQuestion(this.questionBank[this.questionIndex]);
-
-    },
-
-    resetGame: function () {
-        this.rightAnswers = 0;
-        this.timeLeft = this.timePerQuestion;
-        this.currentQuestionIndex = 0;
-        this.questionIndex = 0;
-    },
+]
 
 
-    nextQuestion: function () {
-        this.questionIndex++;
+function startGame() {
+    if(questionBank.length < totalQuestions) totalQuestions = questionBank.length;
+    $('.startBtn').hide();
+    $('.mainGame').show()
+    shuffle(questionBank);
+    displayQuestion(questionBank[questionIndex]);
+}
 
-        if (this.questionIndex >= this.totalQuestions - 1) {
-            this.displayResults();
-        } else {
-            console.log(this)
-            this.displayQuestion(this.questionBank[this.questionIndex]);
-        }
+function resetGame() {
+    rightAnswers = 0;
+    missedQuestions = 0;
+    timeLeft = timePerQuestion;
+    questionIndex = 0;
+    totalQuestions = 10;
+    $('.gameResults').remove();
+    startGame();
+}
 
-    },
 
-    checkAnswer: function (answer) {
-
-        if (answer === this.questionBank[this.questionIndex].answers[0]) {
-            this.correctAnswer = true;
-        } else {
-            this.correctAnswer = false;
-        }
-
-        this.displayAnswer();
-
-    },
-
-    displayQuestion: function (quest) {
-        //show Timer Display
-        $('.gameTimer').append($('<div>').addClass('timerDisplay mx-auto').text(this.timeLeft));
-
-        //show question
-        $('.gameQuestion').text(quest.question);
-
-        $('.gameAnswerBox').show();
-
-        for (let i = 0; i < quest.answers.length; i++) {
-            $('#gameAnswer' + i).text(this.questionBank[this.questionIndex].answers[i]);
-        }
-        this.timeLeft = this.timePerQuestion;
-        this.startTimer();
-
-    },
-
-    displayAnswer: function () {
-        if (this.correctAnswer) {
-
-        } else {
-
-        }
-
-        setTimeout(this.nextQuestion, 5000);
-    },
-
-    displayResults: function () {
-
-    },
-
-    displayTimesUp: function () {
-        this.displayAnswer();
-    },
-
-    //Fisher-Yates shuffle function
-    shuffleQuestions: function (array) {
-
-        var temp = null,
-            randomIndex = 0;
-
-        for (let i = this.questionBank.length - 1; i > 0; i--) {
-
-            randomIndex = Math.floor(Math.random() * (i + 1));
-            temp = this.questionBank[i];
-            this.questionBank[i] = this.questionBank[randomIndex];
-            this.questionBank[randomIndex] = temp;
-        }
-
-    },
-
-    startTimer: function () {
-        console.log(this)
-
-        var obj = this;
-
-        if (!this.isRunning) {
-            this.isRunning = true;
-            this.timerIntervalID = setInterval(function(){
-                obj.countDown(obj);
-            }, 1000);
-        }
-    },
-
-    clearTimer: function () {
-        this.isRunning = false;
-        clearInterval(this.timerIntervalID);
-    },
-
-    countDown: function (obj) {
-        console.log(this);
-        obj.timeLeft--;
-        console.log(obj.timeLeft);
-        if (obj.timeLeft <= 0) {
-            obj.timesUp();
-        } else {
-            $('.timerDisplay').text(obj.timeLeft);
-        }
-
-    },
-
-    timesUp: function () {
-        this.clearTimer();
-
-        this.displayTimesUp();
-
-        setTimeout(this.nextQuestion, 5000);
-
+function nextQuestion() {
+    questionIndex++;
+    
+    if (questionIndex > totalQuestions - 1) {
+        displayResults();
+    } else {
+        displayQuestion(questionBank[questionIndex]);
     }
 
-};
+}
+
+function checkAnswer(answer) {
+
+    if (answer === questionBank[questionIndex].answers[0]) {
+        correctAnswer = true;
+    } else {
+        correctAnswer = false;
+    }
+
+    displayAnswer();
+
+}
+
+function displayQuestion(quest) {
+    //show Timer Display
+    timeLeft = timePerQuestion;
+    $('.gameTimer').empty();
+    $('.gameTimer').append($('<div>').addClass('timerDisplay mx-auto').text(timeLeft));
+
+    $('#gameQuestionIndex').text(questionIndex+1);
+    $('#gameQuestionTotal').text(totalQuestions);
+
+
+    //show question
+    $('.gameQuestion').text(quest.question);
+    $('.gameAnswerBox').show();
+
+
+    var answerDisplayArray = shuffle(quest.answers.slice());
+    for (let i = 0; i < answerDisplayArray.length; i++) {
+        $('#gameAnswer' + i).attr("data-value", quest.answers.indexOf(answerDisplayArray[i])).text(answerDisplayArray[i]);
+    }
+    
+    startTimer();
+
+}
+
+function displayAnswer() {
+    console.log('ANSWER')
+    if (correctAnswer) {
+
+    } else {
+
+    }
+    setTimeout(nextQuestion, showAnswerTime * 1000);
+}
+
+function displayResults() {
+    console.log('RESULTS')
+
+
+    $('.mainGame').hide();
+
+    var resultsContainer = $('<div>').addClass("col-12 gameResults");
+    resultsContainer.append($('<h1>').addClass("my-5").text("Results"));
+    resultsContainer.append($('<h3>').text("Correct Answers: " + rightAnswers));
+    resultsContainer.append($('<h3>').text("Incorrect Answers: " + (totalQuestions - rightAnswers - missedQuestions)));
+    resultsContainer.append($('<h3>').text("Missed Questions: " + missedQuestions));
+    resultsContainer.append($('<h2>').addClass("my-5").text("Score: " + (rightAnswers/totalQuestions)));
+    resultsContainer.append($('<button>').text("Play Again?").bind("click", resetGame));
+
+    resultsContainer.insertAfter('.gameTitle');
+}
+
+function displayTimesUp() {
+    console.log('TIMES UP')
+    missedQuestions++;
+}
+
+//Fisher-Yates shuffle function
+function shuffle(array) {
+    console.log("shuffle:",array)
+
+    var temp = null,
+        randomIndex = 0;
+
+    for (let i = array.length - 1; i > 0; i--) {
+
+        randomIndex = Math.floor(Math.random() * (i + 1));
+        temp = array[i];
+        array[i] = array[randomIndex];
+        array[randomIndex] = temp;
+    }
+
+    return array;
+
+}
+
+
+
+function countDown() {
+    timeLeft--;
+    $('.timerDisplay').text(timeLeft);
+    if (timeLeft <= 0) {
+        clearTimer(timerIntervalID);
+        timesUp();
+    }
+}
+
+function timesUp() {
+    displayTimesUp();
+    setTimeout(nextQuestion, showAnswerTime * 1000);
+
+}
+
+
+function startTimer() {
+
+    if (!gameRunning) {
+        gameRunning = true;
+        timerIntervalID = setInterval(function () {
+            countDown();
+        }, 1000);
+    }
+}
+
+function clearTimer() {
+    gameRunning = false;
+    clearInterval(timerIntervalID);
+}
 
 
 function showText(element, text) {
@@ -172,7 +192,7 @@ function showHTML(element, html) {
     element.html(html);
 }
 
-function Question(quest, answerArray, img, desc) {
+function Question(quest, answerArray, img) {
     this.question = quest;
     this.answers = answerArray;
     this.image = img;

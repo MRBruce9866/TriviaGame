@@ -19,8 +19,6 @@ body {
 }
 
 
-
-
 ul{
     margin: 0;
     padding: 5px;
@@ -42,6 +40,10 @@ li:hover{
     font-size: 32px;
     box-shadow: 2px 2px black;
 
+}
+
+.gameQuestionNum {
+    display: none;
 }
 
 .startBtn:hover{
