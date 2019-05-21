@@ -4,7 +4,7 @@ $(document).ready(function () {
         startGame();
     });
 
-    $('.answer').on("click", function (){
+    $('.answer').on("click", function () {
         var answer = $(this).children('span').attr("data-value");
         checkAnswer(answer);
     });
@@ -18,22 +18,23 @@ var rightAnswers = 0;
 var missedQuestions = 0;
 var timePerQuestion = 10; //time in seconds
 var timeLeft = 0;
-var showAnswerTime = 1;
+var showAnswerTime = 3;
 var questionIndex = 0;
 var timerIntervalID = 0;
 var correctAnswer = false;
 var gameRunning = false;
 
-var questionBank = [ //the correct answer is stored in the index 0 position of the answers array.
+var questionBank = [ //the correct answer is stored in the index 0 position of the answers array. We shuffle the answers later for display to the player.
     new Question("What color do the ghost enemies turn when Pacman eats a power pellet?", ["Blue", "Red", "Yellow", "Green"], ""),
     new Question("How long did it take Markus Persson to create the first version of Minecraft?", ["1 week", "3 days", "1 month", "2 weeks"], ""),
-    new Question("In every Mario Kart title, what is the name of the last track of the Special Cup?", ["Rainbow Road", "Bowser Castle", "Mario Circuit", "Bowser's Keep"], ""),
+    new Question("In every Mario Kart title, what is the name of the last track of the Special Cup?", ["Rainbow Road", "Bowser Castle", "Mario Circuit", "Bowser's Keep"], "assets/images/RainbowRoad.png"),
     new Question("Crash Bandicoot was released in what year?", ["1996", "1994", "1999", "1998"], ""),
-    new Question("Which Mario character has appeared in all of the Mario Party games EXCEPT one?", ["Wario", "Waluigi", "Bowser", "Peach"], ""),
+    new Question("Which Mario character has appeared in all of the Mario Party games EXCEPT one?", ["Wario", "Waluigi", "Bowser", "Peach"], "assets/images/Wario.png"),
     new Question("Solid Snake is a hero in what video game series?", ["Metal Gear", "Red Dead Redemption", "Castlevania", "Fallout"], ""),
-    // new Question("", ["", "", "", ""],""),
-    // new Question("", ["", "", "", ""],""),
-    // new Question("", ["", "", "", ""],""),
+    new Question("What was Mario's original name?", ["Jumpman", "Redman", "Plumber Man", "Fred"],""),
+    new Question("How many Chaos Emeralds are in the Sonic the Hedgehog universe?", ["7", "9", "5", "10"],""),
+    new Question("What codename was used during the developement of the Nintendo Gamecube? ", ["Dolphin", "Rubix", "Nitro", "Atlantis"],""),
+    new Question("How many levels are in Super Mario World for the NES?", ["72", "96", "128", "64"],"")
 
 ]
 
@@ -81,14 +82,14 @@ function checkAnswer(answer = -1) {
     switch (answer) {
         case -1:
 
-        //Missed Question Logic
-        missedQuestions++;
+            //Missed Question Logic
+            missedQuestions++;
 
             break;
         case 0:
 
-        //Right Answer Logic
-        rightAnswers++;
+            //Right Answer Logic
+            rightAnswers++;
 
             break;
 
@@ -97,7 +98,7 @@ function checkAnswer(answer = -1) {
     }
 
     displayAnswer(answer);
-    setTimeout(function(){
+    setTimeout(function () {
         $('.gameAnswer').remove();
         $('.mainGame').show();
         nextQuestion();
@@ -135,30 +136,38 @@ function displayAnswer(display) {
     $('.mainGame').hide();
 
     var answerContainer = $('<div>').addClass("col-12 gameAnswer");
-    
+
 
     switch (display) {
         case -1:
 
-        answerContainer.append($('<h1>').addClass("my-5").text("You ran out of time!"));
-        
+            answerContainer.append($('<h1>').addClass("my-5").text("You ran out of time!"));
+
             break;
         case 0:
-        answerContainer.append($('<h1>').addClass("my-5").text("Correct!"));
+            answerContainer.append($('<h1>').addClass("my-5").text("Correct!"));
 
             break;
 
         default:
-        answerContainer.append($('<h1>').addClass("my-5").text("Wrong"));
+            answerContainer.append($('<h1>').addClass("my-5").text("Wrong"));
 
 
             break;
     }
 
-    answerContainer.append($('<h3>').text("Correct Answer: " + questionBank[questionIndex].answers[0]));
-    answerContainer.insertAfter('.gameTitle');
+    answerContainer.append($('<hr>').addClass("my-5"))
+    answerContainer.append($('<h2>').text(questionBank[questionIndex].answers[0]));
     
-   
+    if (questionBank[questionIndex].image !== "") {
+        answerContainer.append($('<img>').addClass("answerImage mt-5").attr("src", questionBank[questionIndex].image));
+    }
+
+    answerContainer.append($('<hr>').addClass("my-5"))
+
+    answerContainer.insertAfter('.gameTitle');
+
+
 }
 
 function displayResults() {

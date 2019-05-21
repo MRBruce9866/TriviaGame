@@ -18,6 +18,14 @@ body {
     
 }
 
+hr{
+    border: none;
+    width: 50%;
+    height: 1px;
+    background-color: white;
+    box-shadow: 2px 2px black;
+}
+
 
 ul{
     margin: 0;
@@ -44,6 +52,9 @@ li:hover{
 
 .gameQuestionNum {
     display: none;
+}
+
+.answerImage{
 }
 
 .startBtn:hover{
